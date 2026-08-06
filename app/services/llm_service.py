@@ -18,3 +18,12 @@ class LLMService:
             settings.OLLAMA_MODEL,
             messages
         )
+
+    def generate_stream_response(self,prompt:str):
+        messages = ChatPromptBuilder.build(prompt)
+
+        return self.ollama_client.generate_stream(
+            settings.OLLAMA_MODEL,
+            messages
+        )
+    
