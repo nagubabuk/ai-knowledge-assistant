@@ -1,5 +1,4 @@
 class AIProviderException(Exception):
+    """Raised when the AI provider cannot generate a response."""
 
-    def __init__(self, message: str):
-        self.message = message
-        super().__init__(message)
+    pass
