@@ -27,3 +27,23 @@ A production-style AI chatbot built using FastAPI and Ollama.
 - Production-style logging
 - Global exception handling
 - Local LLM integration using Ollama
+
+## Day 3 Enhancements
+
+### Logging
+
+- Centralized logging using Python's `logging` module.
+- Module-specific loggers using `logging.getLogger(__name__)`.
+
+### Exception Handling
+
+- Custom `AIProviderException`.
+- Global FastAPI exception handler.
+- Clean HTTP responses for AI service failures.
+
+### Architecture Improvements
+
+- Prompt Builder
+- Ollama Client abstraction
+- Dependency Injection
+- Configuration using `.env`
