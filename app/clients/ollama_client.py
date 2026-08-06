@@ -1,7 +1,5 @@
 import logging
-from ollama import ResponseError, chat
-from app.config import settings
-from app.config import settings
+from ollama import chat
 from app.core.exceptions import AIProviderException
 logger = logging.getLogger(__name__)
 
@@ -20,8 +18,8 @@ class OllamaClient:
             )
             logger.info("Received response from Ollama")
             return response.message.content
-        except ResponseError as ex:
-            logger.exception("Ollama returned an error.")
+        except Exception as ex:
+            logger.exception("Unexpected error")
 
             raise AIProviderException(
                 "Unable to generate AI response."

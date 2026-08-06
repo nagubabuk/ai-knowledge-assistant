@@ -19,6 +19,11 @@ A production-style AI chatbot built using FastAPI and Ollama.
 - Llama 3.2
 - Pydantic
 
-## Project Structure
+## Architecture Highlights
 
-...
+- Layered architecture (API → Service → Client)
+- Dependency Injection using FastAPI
+- Centralized configuration management
+- Production-style logging
+- Global exception handling
+- Local LLM integration using Ollama
