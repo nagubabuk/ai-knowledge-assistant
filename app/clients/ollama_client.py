@@ -41,8 +41,10 @@ class OllamaClient:
             )
 
             for chunk in stream:
-                if chunk.message.content:
-                    yield chunk.message.content
+                content = chunk.message.content
+                if content:
+                    yield content
+                
 
             logger.info("Streaming completed successfully.")
 
