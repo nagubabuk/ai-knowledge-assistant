@@ -14,7 +14,8 @@ class OllamaClient:
             logger.info("Sending request to Ollama model %s", model)
             response = chat(
                 model=model,
-                messages=messages
+                messages=messages,
+                stream=True
             )
             logger.info("Received response from Ollama")
             return response.message.content
@@ -23,4 +24,31 @@ class OllamaClient:
 
             raise AIProviderException(
                 "Unable to generate AI response."
+            ) from ex
+
+
+    def generate_stream(
+            self,
+            model: str,
+            message:list
+    ):
+        try:
+            logger.info("streaming response from ollama model '%s'",model)
+            stream = chat(
+                model,
+                messages=message,
+                stream=True
+            )
+
+            for chunk in stream:
+                if chunk.message.content:
+                    yield chunk.message.content
+
+            logger.info("Streaming completed successfully.")
+
+        except Exception as ex:
+            logger.exception("streaming failed")
+
+            raise AIProviderException(
+                "Unable to stream api response"
             ) from ex

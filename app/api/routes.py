@@ -4,6 +4,7 @@ from fastapi import Depends
 from app.dependencies import get_llm_service
 from app.models import ChatRequest, ChatResponse
 from app.services.llm_service import LLMService
+from fastapi.responses import StreamingResponse
 
 router = APIRouter()
 
@@ -28,6 +29,17 @@ def chat(
         reply=response
     )
 
+@router.post("/chat/stream")
+def chat_stream(
+    request:ChatRequest,
+    llm_service:LLMService = Depends(get_llm_service)
+):
+    return StreamingResponse(
+        llm_service.generate_stream_response(
+            request.message
+        ),
+        media_type="text/plain"
+    )
 
 @router.get("/greet")
 def greetings():
