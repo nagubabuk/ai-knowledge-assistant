@@ -35,22 +35,32 @@ def chat(
 
 @router.post("/chat/stream")
 def chat_stream(
-    request:ChatRequest,
-    llm_service:LLMService = Depends(get_llm_service)
+    request: ChatRequest,
+    llm_service: LLMService = Depends(
+        get_llm_service
+    ),
 ):
     def event_generator():
         try:
-            for chunk in llm_service.generate_stream_response(request.message):
-                yield format_sse_event(
-                    data = chunk,
-                    event = "message",
+            for chunk in (
+                llm_service.generate_stream_response(
+                    request.message
                 )
+            ):
+                yield format_sse_event(
+                    data=chunk,
+                    event="message",
+                )
+
             yield format_sse_event(
-                data ="completed",
-                event = "done",
+                data="completed",
+                event="done",
             )
+
         except AIProviderException as ex:
-            logger.exception("Streaming request failed.")
+            logger.exception(
+                "Streaming AI request failed."
+            )
 
             yield format_sse_event(
                 data=str(ex),
@@ -66,13 +76,6 @@ def chat_stream(
             "X-Accel-Buffering": "no",
         },
     )
-    # return StreamingResponse(
-    #     llm_service.generate_stream_response(
-    #         request.message
-    #     ),
-    #     media_type="text/plain"
-    # )
-
 @router.get("/greet")
 def greetings():
     return {

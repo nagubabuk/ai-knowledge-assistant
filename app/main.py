@@ -3,6 +3,7 @@ from app.api.routes import router
 from fastapi.responses import JSONResponse
 from app.core.exceptions import AIProviderException
 from app.core.logger import configure_logging
+from fastapi.middleware.cors import CORSMiddleware
 
 configure_logging()
 app = FastAPI(
@@ -10,6 +11,15 @@ app = FastAPI(
     version="1.0.0"
 )
 
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=[
+        "http://localhost:5173",
+    ],
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
 
 @app.exception_handler(AIProviderException)
 async def ai_provider_exception_handler(
